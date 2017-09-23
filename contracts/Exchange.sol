@@ -39,7 +39,8 @@ contract Exchange {
 
     function finilizeProposals() {
         for (uint8 proposalId = 0; proposalId < proposals.length; proposalId++) {
-            if (proposals[proposalId].ticketRegistryContract == 0) throw;
+            if (proposals[proposalId].ticketRegistryContract == 0) 
+            throw;
         }
         proposalsFinilized = true;
     }
@@ -66,7 +67,8 @@ contract Exchange {
     }
 
     function checkProposal(uint8 proposalId) returns (bool successful) {
-        if (proposalId >= proposals.length) throw;
+        if (proposalId >= proposals.length) 
+        throw;
         TicketRegistry tr = TicketRegistry(proposals[proposalId].ticketRegistryContract);
 		return tr.getOwner(proposals[proposalId].ticketId) == address(this);
     }

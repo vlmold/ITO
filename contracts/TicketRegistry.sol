@@ -14,12 +14,10 @@ contract TicketRegistry {
     
     mapping(uint => address) public ticketMap;
     
-    //mapping(address => uint[]) public customers;
     
     // Constructor
     function TicketRegistry(string _name, string _description, uint _amount, uint _expDate) {
          owner = msg.sender;
-         
          name = _name;
          description = _description;
          maxAmount = _amount;

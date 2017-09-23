@@ -24,17 +24,28 @@ router.post("/", function (req, res) {
 
     logger.debug("#buy ticket");
     
-    let address = params.address;
+    let address = params.userAddress;
     let contractAddress = params.contractAddress;
-    let numberOfTickets = params.numberOfTickets;
+    let numberOfTicket = params.numberOfTicket;
 
-    web3helper.buyTicket(contractAddress, address, numberOfTickets).then((result)=>{
+    web3helper.buyTicket(contractAddress, address, numberOfTicket).then((result)=>{
         res.send(result);
     });
 
 });
 
+router.get("/", function (req, res) {
+    
+        let params = req.body;
 
+        logger.debug("#get ticket");
+        let contractAddress = params.contractAddress;
+        let address = params.address;    
+        web3helper.getTickets(contractAddress).then((result)=>{
+            res.send(result);
+        });
+    
+    });
 
 module.exports = router;
 

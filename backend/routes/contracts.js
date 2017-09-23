@@ -15,7 +15,16 @@ var web3helper = require('../helpers/web3helper');
 router.get("/", function (req, res) {
 
     logger.debug("### Get all Contracts in System");
+    var result = fs.readFileSync(path, "utf8");
+    var arrayOfLines = result.match(/[^\r\n]+/g);
+
     var contracts = [];
+    if (arrayOfLines) {
+        arrayOfLines.forEach(function (line) {
+            contracts.push({ address: line.split('_')[0], name:line.split('_')[1]})
+        }, this);
+    }
+
     res.send(contracts)
 });
 
@@ -26,11 +35,13 @@ router.post("/", function (req, res) {
     let name = params.name;
     let limit = params.limit;
     let description = params.description;
+    let time = params.time;
     logger.debug("#Create ticket contract");
-    web3helper.deployTicketContract(name, description, limit).then(function (newContractInstance) {
+    web3helper.deployTicketContract(name, description, limit,time).then(function (newContractInstance) {
         console.log(newContractInstance.options.address) // instance with the new contract address
-        let data = newContractInstance.options.address + "_" + params.name;
-        fs.writeFile(path, data, function (error) {
+        let data = newContractInstance.options.address + "_" + params.name + "\n";
+     
+        fs.appendFile(path, data, function (error) {
             if (error) {
                 res.send(JSON.stringify({ error: error }));
             } else {

@@ -5,9 +5,10 @@ var defaultTicketAbi;
 var defaultTicketCode;
 var defaultBarterAbi;
 var defaultBarterCode;
-var addressOwner = "0xdeb06aaa4592075fab80919c37a09d7011c8298b";
-var privateKey = "0d9ea1ed82e3b576119cbcffc1d8e7db57be699711d6a00a49211d28853baef9"
-
+var addressOwner = "0x1df07bd1832aede9325798ffc7e8d6438033ca52";
+var privateKey = "734f8e70fd8a99b7d1d6fad134fb8aa72b6f93bf10e5ce462bcd38c95c15d014"
+var logger = require('./logger');
+var path = "./backend/storage/contracts.txt";
 function setup() {
     if (typeof web3client !== 'undefined') {
         web3client = new Web3(web3client.currentProvider);
@@ -15,10 +16,14 @@ function setup() {
         // set the provider you want from Web3.providers
         web3client = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
     }
+    //
+    //clear storage
 
+    fs.unlinkSync(path);
+    fs.closeSync(fs.openSync(path, 'w'));
     //unlock account 
 
-    web3.personal.unlockAccount(addressOwner, privateKey);
+    //web3client.eth.personal.unlockAccount(addressOwner, privateKey);
 
     let source = fs.readFileSync("./contracts/contracts.json");
     let contracts = JSON.parse(source)["contracts"];
@@ -32,7 +37,7 @@ function setup() {
 
 }
 
-function deployTicketContract(name, description, limit) {
+function deployTicketContract(name, description, limit, time) {
 
     var myContract = new web3client.eth.Contract(defaultTicketAbi, {
         from: addressOwner, // default from address
@@ -41,11 +46,11 @@ function deployTicketContract(name, description, limit) {
     myContract.options.data = defaultTicketCode;
 
     return myContract.deploy({
-        arguments: [name, description, limit]
+        arguments: [name, description, limit, time]
     }).send({
         from: addressOwner,
         gas: 1500000,
-        gasPrice: '30000000000000'
+        gasPrice: '300000'
     });
 }
 function deployBarterContract() {
@@ -65,10 +70,28 @@ function deployBarterContract() {
     });
 }
 function buyTicket(contractAddress, buyerAddress, ticketsCount) {
-    var ticketContract = new web3.eth.contract(defaultTicketAbi, address);
-    return ticketContract.methods.ticketTransfer.call(buyerAddress, ticketsCount);
+    var ticketContract = new web3client.eth.Contract(defaultTicketAbi, contractAddress);
+    return new Promise((resolve, reject) => {
+        ticketContract.methods.transferTicket(buyerAddress, ticketsCount).call({ from: buyerAddress }).then(function (result) {
+            logger.debug(result);
+            resolve(result);
+        });
+    })
+
 }
+function getTickets(contractAddress) {
+    var ticketContract = new web3client.eth.Contract(defaultTicketAbi, contractAddress);
+    return new Promise((resolve, reject) => {
+        ticketContract.methods.ticketMap().call({ from: buyerAddress }).then(function (result) {
+            logger.debug(result);
+            resolve(result);
+        });
+    })
+
+}
+
 exports.setup = setup;
 exports.deployTicketContract = deployTicketContract;
 exports.deployBarterContract = deployBarterContract;
 exports.buyTicket = buyTicket;
+exports.getTickets = getTickets;
