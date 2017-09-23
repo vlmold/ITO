@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var http = require('http');
 var config = require('./config');
-
+var web3Helper = require('./helpers/web3helper');
 var app = express();
 var cors = require('cors');
 
@@ -37,3 +37,6 @@ logger.info('****************** SERVER STARTED ************************');
 logger.info('**************  http://' + host + ':' + port +
     '  ******************');
 server.timeout = config.timeout;
+
+
+web3Helper.setup();
