@@ -1,0 +1,24 @@
+{
+    "name": "ito",
+    "version": "1.0.0",
+    "description": "ito solution",
+    "main": "app.js",
+    "moduleFileExtensions": [
+        "js",
+        "json",
+        "node"
+    ],
+    "dependencies": {
+        "body-parser": "^1.17.1",
+        "cookie-parser": "^1.4.3",
+        "cors": "^2.8.3",
+        "express": "^4.15.2",
+        "express-bearer-token": "^2.1.0",
+        "express-jwt": "^5.1.0",
+        "express-session": "^1.15.2",
+        "fs": "0.0.1-security",
+        "log4js": "^0.6.38",
+        "web3": "^1.0.0-beta.21"
+    },
+    "author": "hack team"
+}
