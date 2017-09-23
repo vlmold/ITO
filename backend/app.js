@@ -16,6 +16,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
 }));
+
+
 app.use(function (req, res, next) {
     return next();
 });
@@ -23,6 +25,8 @@ app.use(function (req, res, next) {
 app.get("/hello", function (req, res) {
     res.send("Hello");
 });
+
+app.use('/api/contracts', require('./routes/contracts'));
 
 /* START SERVER CODE */
 var host = config.host;
