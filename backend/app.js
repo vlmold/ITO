@@ -27,7 +27,7 @@ app.get("/hello", function (req, res) {
 });
 
 app.use('/api/contracts', require('./routes/contracts'));
-
+app.use('/api/tickets', require('./routes/tickets'));
 /* START SERVER CODE */
 var host = config.host;
 var port = config.port;
