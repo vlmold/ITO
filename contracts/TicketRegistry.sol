@@ -39,10 +39,11 @@ contract TicketRegistry{
         }
 
         if(ticketMap[_ticketId] == msg.sender) {
-            ticketMap[_ticketId] == _to;
+            ticketMap[_ticketId] = _to;
             return true;
         }
 
         return false;
     }
+
 }
