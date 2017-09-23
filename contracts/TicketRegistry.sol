@@ -1,26 +1,29 @@
-pragma solidity ^0.4.11;
+pragma solidity ^0.4.0;
 
 contract TicketRegistry {
 
     // Owner of this contract
     address public owner;
 
-    string public name = "Concert Name";
-    string public description = "Concert Description";
+    string public name = "Event Name";
+    string public description = "Event Description";
+    uint   public expDate;
     
     uint maxAmount = 3; // number of tickets
     uint count = 0;
     
     mapping(uint => address) public ticketMap;
     
-  
+    //mapping(address => uint[]) public customers;
+    
     // Constructor
-    function TicketRegistry(string _name, string _description, uint _amount) {
+    function TicketRegistry(string _name, string _description, uint _amount, uint _expDate) {
          owner = msg.sender;
          
          name = _name;
          description = _description;
          maxAmount = _amount;
+         expDate = _expDate;
     }
     
     function  numberOfAvailableTickets() constant returns (uint) {
@@ -28,7 +31,7 @@ contract TicketRegistry {
     }
     
     function transferTicket(address _to,uint _ticket) returns (bool) {
-        
+        require(now < expDate);
         require(_ticket <= maxAmount);
 
         if (msg.sender == owner && ticketMap[_ticket]==0) {
