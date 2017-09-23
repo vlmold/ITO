@@ -1,0 +1,18 @@
+<h1> Insert your ethereum address </h1>
+
+<div>
+    <md-form-field>
+        <input mdInput placeholder="address" [(ngModel)]="buyerAddress">
+        <md-icon mdSuffix>mode_edit</md-icon>
+    </md-form-field>
+</div>
+
+<md-list>
+    <h3 md-subheader>Offers</h3>
+    <md-list-item *ngFor="let offer of offers">
+        <md-icon md-list-icon>assignment</md-icon>
+        <h4 md-line>{{offer.name}}</h4>
+        <p md-line> {{offer.address }} </p>
+        <button class="buyBtn" md-line md-raised-button (click)="buyTicket($event)">Buy Ticket</button>
+    </md-list-item>
+</md-list>

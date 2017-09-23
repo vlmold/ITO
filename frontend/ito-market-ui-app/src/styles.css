@@ -1,0 +1,30 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+body{
+    font-family: 'Roboto', sans-serif;
+    padding-left: 350px;
+    padding-top: 50px; 
+    /* background-image: url("assets/tickets.png");
+    background-repeat: repeat;
+    background-size: 50px;
+    opacity: 0.8; */
+}
+.buyBtn{
+  width:150px;  
+}
+div.progressBar{
+    width: 250px;
+}
+h1 {
+  font-size: 1.2em;
+  color: #999;
+  margin-bottom: 0;
+}
+h2 {
+  font-size: 2em;
+  margin-top: 0;
+  padding-top: 0;
+}

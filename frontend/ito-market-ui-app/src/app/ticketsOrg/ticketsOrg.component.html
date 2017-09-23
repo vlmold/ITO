@@ -1,0 +1,45 @@
+
+<h1> Create Your Tickets Organization </h1>
+
+<div >
+    <md-select placeholder="Tickets Type">
+        <md-option *ngFor="let ticketType of ticketsTypes" [value]="ticketType">
+            {{ticketType}}
+        </md-option>
+    </md-select>
+</div>
+
+<div>
+    <md-form-field>
+      <input mdInput placeholder="Name" [(ngModel)]="ticketsOrg.Name">
+       <md-icon  mdSuffix>mode_edit</md-icon>
+    </md-form-field>
+</div>
+
+<div>
+    <md-form-field>
+      <input mdInput placeholder="Description" [(ngModel)]="ticketsOrg.Description">
+       <md-icon  mdSuffix>mode_edit</md-icon>
+    </md-form-field>
+</div>
+
+<div>
+    <md-form-field>
+      <input type="number" mdInput placeholder="Entires Limit" [(ngModel)]="ticketsOrg.EntriesCount">
+       <md-icon  mdSuffix>mode_edit</md-icon>
+    </md-form-field>
+</div>
+
+<div *ngIf="isCreating" class="progressBar">
+    <md-progress-bar mode="indeterminate"></md-progress-bar>   
+</div>
+
+<md-form-field>
+  <input [(ngModel)]="ticketsOrg.Time" mdInput [mdDatepicker]="picker" placeholder="Choose a date">
+  <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
+  <md-datepicker #picker></md-datepicker>
+</md-form-field>
+
+<div>
+    <button md-raised-button (click)="createTicketsOrg($event)">Submit your Organization</button>
+</div>
