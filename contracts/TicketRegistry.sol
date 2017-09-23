@@ -1,6 +1,6 @@
-pragma solidity ^0.4.0;
+pragma solidity ^0.4.11;
 
-contract TicketRegistry{
+contract TicketRegistry {
 
     // Owner of this contract
     address public owner;
@@ -13,8 +13,7 @@ contract TicketRegistry{
     
     mapping(uint => address) public ticketMap;
     
-    //mapping(address => uint[]) public customers;
-    
+  
     // Constructor
     function TicketRegistry(string _name, string _description, uint _count) {
          owner = msg.sender;
@@ -30,21 +29,17 @@ contract TicketRegistry{
     
     function transferTicket(address _to,uint _ticket) returns (bool){
         
-        if(_ticket > maxAmount){
-            throw;
-        }
+        require(_ticket > maxAmount);
+ 
         
-        if(msg.sender == owner && ticketMap[_ticket]==0){
+        if (msg.sender == owner && ticketMap[_ticket]==0) {
             
-            if(count > maxAmount){
-                throw;
-            }
-            
+            require(count > maxAmount);
             ticketMap[_ticket] = _to; 
             count++;
         }
         
-        if(ticketMap[_ticket] == msg.sender){
+        if (ticketMap[_ticket] == msg.sender){
             
             ticketMap[_ticket] == _to;
         }
