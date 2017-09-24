@@ -73,18 +73,19 @@ function deployBarterContract() {
 function buyTicket(contractAddress, buyerAddress, ticketId) {
     var ticketContract = new web3client.eth.Contract(defaultTicketAbi, contractAddress);
     return new Promise((resolve, reject) => {
-
-        ticketContract.methods.transferTicket(buyerAddress, ticketId).send({ from: buyerAddress }).then(function (result) {
+        let _to = buyerAddress;
+        let _ticketId = parseInt(ticketId);
+        ticketContract.methods.transferTicket(_to, _ticketId).send({ from: addressOwner }).then(function (result) {
             logger.debug(result);
             resolve(result);
         });
     })
 
 }
-function getTickets(contractAddress,id) {
+function getTickets(contractAddress, id) {
     var ticketContract = new web3client.eth.Contract(defaultTicketAbi, contractAddress);
     return new Promise((resolve, reject) => {
-        ticketContract.methods.ticketMap(id).call({ from: addressOwner }).then(function (result) {
+        ticketContract.methods.ticketMap(parseInt(id)).call({ from: addressOwner }).then(function (result) {
             logger.debug(result);
             resolve(result);
         });
@@ -109,20 +110,18 @@ function exchangeTickets(contract1address, contract2address, firstTicketId1, sec
 
                 deployBarterContract().then((barterContract) => {
                     console.log(barterContract.options.address) // instance with the new contract address
-                    barterContract.methods.setPropasal(0, contract1address, firstTicketId1, address1, address2).send({ from: address1 }).then(function (result1) {
+                    barterContract.methods.setPropasal(0, contract1address, firstTicketId1, address1, address2).send({ from: address1, gas: 300000 }).then(function (result1) {
                         logger.debug(result1);
-                        barterContract.methods.setProposal(1, contract2address, secondTicketId2, address2, address1).send({ from: address2 }).then(function (result) {
+                        barterContract.methods.setPropasal(1, contract2address, secondTicketId2, address2, address1).send({ from: address2 , gas: 300000 }).then(function (result2) {
                             logger.debug(result2);
-                            barterContract.methods.finalizeProposals().send({ from: address1 }).then(function (result) {
+                            barterContract.methods.finalizeProposals().send({ from: address1,gas:300000 }).then(function (result) {
                                 logger.debug(result);
                                 ticket1Contract.methods.transferTicket(barterContract.options.address, firstTicketId1).send({ from: address1 }).then(function (res1) {
                                     logger.debug(res1);
-                                    ticket1Contract.methods.transferTicket(barterContract.options.address, secondTicketId2).send({ from: address2 }).then(function (res2) {
+                                    ticket2Contract.methods.transferTicket(barterContract.options.address, secondTicketId2).send({ from: address2 }).then(function (res2) {
                                         logger.debug(res2);
-                                        barterContract.methods.doExchange().send({ from: address1 }).then(function (finalResult) {
+                                        barterContract.methods.doExhcange().send({ from: address1 ,gas :500000}).then(function (finalResult) {
                                             logger.debug(finalResult);
-
-
                                             resolve(finalResult);
                                         });
                                     });

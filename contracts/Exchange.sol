@@ -34,9 +34,9 @@ contract Exchange {
     }
 
     function finalizeProposals() {
-        // for (uint8 proposalId = 0; proposalId < proposals.length; proposalId++) {
-        //     // require(proposals[proposalId].ticketRegistryContract != address(0));
-        // }
+        for (uint8 proposalId = 0; proposalId < proposals.length; proposalId++) {
+            // require(proposals[proposalId].ticketRegistryContract != address(0));
+        }
         proposalsFinalized = true;
     }
 

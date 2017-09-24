@@ -1,4 +1,4 @@
-pragma solidity ^0.4.0;
+pragma solidity ^0.4.11;
 
 contract TicketRegistryInterface {
     mapping(uint => address) public ticketMap;
@@ -35,8 +35,8 @@ contract TicketRegistry is TicketRegistryInterface {
     function transferTicket(address _to, uint _ticketId) public returns (bool) {
         // require(now < expDate);
         // require(_ticketId < maxCount);
-
-        if(msg.sender == owner && ticketMap[_ticketId] == 0) {
+       
+        if(msg.sender == owner && ticketMap[_ticketId] == address(0) ) {
             // require(count < maxCount);
             ticketMap[_ticketId] = _to;
             count++;
