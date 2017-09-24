@@ -1,6 +1,11 @@
 pragma solidity ^0.4.0;
 
-contract TicketRegistry {
+contract TicketRegistryInterface {
+    mapping(uint => address) public ticketMap;
+    function transferTicket(address _to, uint _ticketId) public returns (bool);
+}
+
+contract TicketRegistry is TicketRegistryInterface {
 
     // Owner of this contract
     address public owner;
@@ -27,12 +32,12 @@ contract TicketRegistry {
         return maxCount - count;
     }
 
-    function transfer(address _to, uint _ticketId) public returns (bool) {
-        // require(now < expDate);
-        // require(_ticketId < maxCount);
+    function transferTicket(address _to, uint _ticketId) public returns (bool) {
+        require(now < expDate);
+        require(_ticketId < maxCount);
 
         if(msg.sender == owner && ticketMap[_ticketId] == 0) {
-            // require(count < maxCount);
+            require(count < maxCount);
             ticketMap[_ticketId] = _to;
             count++;
             return true;
