@@ -54,7 +54,7 @@ contract Exchange {
 	    //selfdestruct(owner);
     }
 
-    function transfer() {
+    function doExchange() {
         require(proposalsFinalized);
         for (uint8 proposalId = 0; proposalId < proposals.length; proposalId++) {
             //TicketRegistry tr = TicketRegistry(proposals[proposalId].ticketRegistryContract);
