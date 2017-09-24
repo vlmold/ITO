@@ -21,6 +21,9 @@ export class BuyerComponent implements OnInit {
   offers: TicketOffer[];
   ticketNumber: number;
 
+  contractCheckAddr: string;
+  contractCheckNum: number;
+
   constructor(
     private buyerService: BuyersService,
     public snackBar: MdSnackBar
@@ -28,6 +31,15 @@ export class BuyerComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getOffers();
+  }
+
+  checkTicket(): void {
+    this.buyerService.checkUser(this.contractCheckNum,this.contractCheckAddr)
+      .then(result => {
+          this.snackBar.open("Ticket owner - " + result, "Close", {
+            duration: 4000,
+          });        
+      })
   }
 
   buyTicket(event: any, offer: TicketOffer): void {
