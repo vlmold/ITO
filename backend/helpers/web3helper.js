@@ -63,17 +63,17 @@ function deployBarterContract() {
     myContract.options.data = defaultBarterCode;
 
     return myContract.deploy({
-        arguments: []
+        arguments: [2]
     }).send({
         from: addressOwner,
         gas: 1500000,
-        gasPrice: '30000000000000'
+        gasPrice: '300000'
     });
 }
 function buyTicket(contractAddress, buyerAddress, ticketId) {
     var ticketContract = new web3client.eth.Contract(defaultTicketAbi, contractAddress);
     return new Promise((resolve, reject) => {
-       
+
         ticketContract.methods.transfer(buyerAddress, ticketId).send({ from: buyerAddress }).then(function (result) {
             logger.debug(result);
             resolve(result);
@@ -89,6 +89,42 @@ function getTickets(contractAddress) {
             resolve(result);
         });
     })
+
+}
+function exchangeTickets(contract1address, contract2address, firstTicketId1, firstTicketId2) {
+    //get user1 address
+
+
+    var ticket1Contract = new web3client.eth.Contract(defaultTicketAbi, contract1address);
+    return new Promise((resolve, reject) => {
+        ticketContract.methods.ticketMap(firstTicketId1).call({ from: addressOwner }).then(function (address1) {
+            //uesr 1 address    
+            logger.debug(address1);
+            var ticket2Contract = new web3client.eth.Contract(defaultTicketAbi, contract2address);
+            ticketContract.methods.ticketMap(firstTicketId2).call({ from: addressOwner }).then(function (address2) {
+                //uesr 1 address    
+                logger.debug(address2);
+
+
+                deployBarterContract().then((barterContract) => {
+                    console.log(barterContract.options.address) // instance with the new contract address
+                    barterContract.methods.setProposal(0, contract1address, ticket1Contract, address1, address2).send({ from: address1 }).then(function (result1) {
+                        logger.debug(result1);
+                        barterContract.methods.setProposal(1, contract2address, ticket2Contract, address2, address1).send({ from: address2 }).then(function (result) {
+                            logger.debug(result2);
+                            barterContract.methods.finalizeProposals().send({ from: address1 }).then(function (result) {
+                                logger.debug(result);
+                                resolve(result);
+                            });
+                        });
+                    });
+                });
+            })
+        });
+    });
+
+
+
 
 }
 
