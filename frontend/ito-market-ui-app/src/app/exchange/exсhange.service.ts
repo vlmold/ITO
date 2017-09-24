@@ -1,35 +1,35 @@
 import { Injectable }    from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
-import {TicketsOrg} from './models/TicketsOrg'
-
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class TicketsOrgService {
+export class ExсhangeService {
   private headers = new Headers({'Content-Type': 'application/json'});
   private hostUrl = 'http://10.1.16.104:3000'; 
 
   constructor(private http: Http) { }
 
- createTicketsOrg(ticketsOrg: TicketsOrg): Observable<string> {
+  changeTickets(
+     user1Address: string,
+     user2Address: string,
+     place1Number: number,
+     place2Number: number): Observable<boolean> {
       const url = `${this.hostUrl}/api/contracts`;
       return this.http
-            .post(url, this.makeJsonFromTicketsOrg(ticketsOrg), {headers: this.headers})
-              .map(res => res.json().address as string);
-  }
-
-  private makeJsonFromTicketsOrg(ticketsOrg: TicketsOrg): string{
-    return JSON.stringify(
-              {
-                name: ticketsOrg.Name,
-                description : ticketsOrg.Description,
-                limit: ticketsOrg.EntriesCount,
-                time: ticketsOrg.Time.getTime()
-              });
-  }
+            .post(url, 
+              JSON.stringify(
+                {
+                  firstContractAddress: user1Address,
+                  secondContractAddress : user2Address,
+                  firstTicketId: place1Number,
+                  secondTicketId: place2Number
+                })
+              , {headers: this.headers})
+              .map(res => res.json().isSuccess as boolean);
+  }  
 
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only

@@ -30,15 +30,15 @@
     </md-form-field>
 </div>
 
-<div *ngIf="isCreating" class="progressBar">
-    <md-progress-bar mode="indeterminate"></md-progress-bar>   
-</div>
-
 <md-form-field>
   <input [(ngModel)]="ticketsOrg.Time" mdInput [mdDatepicker]="picker" placeholder="Choose a date">
   <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
   <md-datepicker #picker></md-datepicker>
 </md-form-field>
+
+<div *ngIf="isCreating" class="progressBar">
+    <md-progress-bar mode="indeterminate"></md-progress-bar>   
+</div>
 
 <div>
     <button md-raised-button (click)="createTicketsOrg($event)">Submit your Organization</button>

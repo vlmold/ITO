@@ -13,6 +13,9 @@
         <md-icon md-list-icon>assignment</md-icon>
         <h4 md-line>{{offer.name}}</h4>
         <p md-line> {{offer.address }} </p>
-        <button class="buyBtn" md-line md-raised-button (click)="buyTicket($event)">Buy Ticket</button>
+        <md-form-field class="buyBtn"  md-line>
+            <input type="number" mdInput placeholder="Place number" [(ngModel)]="ticketNumber">
+        </md-form-field>
+        <button class="buyBtn" md-line md-raised-button (click)="buyTicket($event, offer)">Buy Ticket</button>
     </md-list-item>
 </md-list>

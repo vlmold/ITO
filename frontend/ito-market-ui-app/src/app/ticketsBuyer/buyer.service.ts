@@ -9,9 +9,23 @@ import { TicketOffer } from './TiketOffer';
 @Injectable()
 export class BuyersService {
   private headers = new Headers({'Content-Type': 'application/json'});
-  private hostUrl = 'http://10.1.19.94:3000'; 
+  private hostUrl = 'http://10.1.16.104:3000'; 
 
   constructor(private http: Http) { }
+
+  buyTicket(userAddress: string, contractAddress: string, placeNumber: number): Observable<boolean> {
+      const url = `${this.hostUrl}/api/contracts`;
+      return this.http
+            .post(url, 
+              JSON.stringify(
+                {
+                  userAddress: userAddress,
+                  contractAddress : contractAddress,
+                  ticketId: placeNumber
+                })
+              , {headers: this.headers})
+              .map(res => res.json().isSuccess as boolean);
+  }  
 
   getOffers(): Promise<TicketOffer[]> {
     const url = `${this.hostUrl}/api/contracts`;

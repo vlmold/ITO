@@ -1,0 +1,29 @@
+<h1> Change tickets </h1>
+
+
+<div>
+    <md-select [(ngModel)]="userAddr1" placeholder="First user tickets org address">
+        <md-option *ngFor="let address of offers" [value]="address.address">
+            {{address.name}}
+        </md-option>
+    </md-select>
+    <md-form-field>
+        <input type="number" mdInput placeholder="Place number" [(ngModel)]="placeNumber1">
+        <md-icon mdSuffix>mode_edit</md-icon>
+    </md-form-field>
+</div>
+
+<div>
+    <md-select [(ngModel)]="userAddr1" placeholder="Second user tickets org address">
+        <md-option *ngFor="let address of offers" [value]="address.address">
+            {{address.name}}
+        </md-option>
+    </md-select>
+    <md-form-field>
+        <input type="number" mdInput placeholder="Place number" [(ngModel)]="placeNumber2">
+        <md-icon mdSuffix>mode_edit</md-icon>
+    </md-form-field>
+</div>
+<div>
+    <button class="buyBtn" md-line md-raised-button (click)="switch($event)">Switch</button>
+</div>
