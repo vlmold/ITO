@@ -33,11 +33,9 @@ export class BuyerComponent implements OnInit {
   buyTicket(event: any, offer: TicketOffer): void {
     this.buyerService.buyTicket(this.buyerAddress, offer.address, this.ticketNumber)
       .subscribe(result => {
-        if (result) {
           this.snackBar.open("You've bought a ticket - ", "Close", {
             duration: 4000,
-          });
-        }
+          });        
       })
   }
 

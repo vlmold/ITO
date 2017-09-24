@@ -43,11 +43,9 @@ export class ExchangeComponent implements OnInit {
   switch(event: any): void {
     this.exService.changeTickets(this.userAddr1, this.userAddr2, this.placeNumber1, this.placeNumber2)
       .subscribe(result => {
-        if (result) {
-          this.snackBar.open("You've changed the tickets - ", "Close", {
+          this.snackBar.open("You've changed the tickets ", "Close", {
             duration: 4000,
-          });
-        }
+          });        
       })
   }
 
