@@ -32,8 +32,8 @@ function setup(owner, key) {
     defaultTicketAbi = JSON.parse(contracts.TicketContract.abi);
     defaultTicketCode = contracts.TicketContract.bin;
 
-    //  defaultBarterAbi = JSON.parse(contracts.BarterContract.abi);
-    //  defaultBarterCode = contracts.BarterContract.bin;
+    defaultBarterAbi = JSON.parse(contracts.BarterContract.abi);
+    defaultBarterCode = contracts.BarterContract.bin;
 
 
 }
@@ -74,7 +74,7 @@ function buyTicket(contractAddress, buyerAddress, ticketId) {
     var ticketContract = new web3client.eth.Contract(defaultTicketAbi, contractAddress);
     return new Promise((resolve, reject) => {
 
-        ticketContract.methods.transfer(buyerAddress, ticketId).send({ from: buyerAddress }).then(function (result) {
+        ticketContract.methods.transferTicket(buyerAddress, ticketId).send({ from: buyerAddress }).then(function (result) {
             logger.debug(result);
             resolve(result);
         });
@@ -91,30 +91,41 @@ function getTickets(contractAddress) {
     })
 
 }
-function exchangeTickets(contract1address, contract2address, firstTicketId1, firstTicketId2) {
+function exchangeTickets(contract1address, contract2address, firstTicketId1, secondTicketId2) {
     //get user1 address
 
 
     var ticket1Contract = new web3client.eth.Contract(defaultTicketAbi, contract1address);
     return new Promise((resolve, reject) => {
-        ticketContract.methods.ticketMap(firstTicketId1).call({ from: addressOwner }).then(function (address1) {
+        ticket1Contract.methods.ticketMap(firstTicketId1).call({ from: addressOwner }).then(function (address1) {
             //uesr 1 address    
             logger.debug(address1);
             var ticket2Contract = new web3client.eth.Contract(defaultTicketAbi, contract2address);
-            ticketContract.methods.ticketMap(firstTicketId2).call({ from: addressOwner }).then(function (address2) {
+            ticket2Contract.methods.ticketMap(secondTicketId2).call({ from: addressOwner }).then(function (address2) {
                 //uesr 1 address    
                 logger.debug(address2);
 
 
                 deployBarterContract().then((barterContract) => {
                     console.log(barterContract.options.address) // instance with the new contract address
-                    barterContract.methods.setProposal(0, contract1address, ticket1Contract, address1, address2).send({ from: address1 }).then(function (result1) {
+                    barterContract.methods.setProposal(0, contract1address, firstTicketId1, address1, address2).send({ from: address1 }).then(function (result1) {
                         logger.debug(result1);
-                        barterContract.methods.setProposal(1, contract2address, ticket2Contract, address2, address1).send({ from: address2 }).then(function (result) {
+                        barterContract.methods.setProposal(1, contract2address, secondTicketId2, address2, address1).send({ from: address2 }).then(function (result) {
                             logger.debug(result2);
                             barterContract.methods.finalizeProposals().send({ from: address1 }).then(function (result) {
                                 logger.debug(result);
-                                resolve(result);
+                                ticket1Contract.methods.transferTicket(barterContract.options.address, firstTicketId1).send({ from: address1 }).then(function (res1) {
+                                    logger.debug(res1);
+                                    ticket1Contract.methods.transferTicket(barterContract.options.address, secondTicketId2).send({ from: address2 }).then(function (res2) {
+                                        logger.debug(res2);
+                                        barterContract.methods.doExchange().send({ from: address1 }).then(function (finalResult) {
+                                            logger.debug(finalResult);
+
+
+                                            resolve(finalResult);
+                                        });
+                                    });
+                                });
                             });
                         });
                     });
@@ -133,3 +144,4 @@ exports.deployTicketContract = deployTicketContract;
 exports.deployBarterContract = deployBarterContract;
 exports.buyTicket = buyTicket;
 exports.getTickets = getTickets;
+exports.exchangeTickets = exchangeTickets;

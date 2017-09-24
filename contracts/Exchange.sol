@@ -22,11 +22,11 @@ contract Exchange {
     }
 
     function setPropasal(uint8 proposalId, TicketRegistryInterface ticketRegistryContract, uint ticketId, address refundAddress, address transferAddress) {
-        require(!proposalsFinalized);
-        require(proposalId < proposals.length);
-        require(ticketRegistryContract != address(0));
-        require(refundAddress != 0);
-        require(transferAddress != 0);
+        // require(!proposalsFinalized);
+        // require(proposalId < proposals.length);
+        // require(ticketRegistryContract != address(0));
+        // require(refundAddress != 0);
+        // require(transferAddress != 0);
         proposals[proposalId].ticketRegistryContract = ticketRegistryContract;
         proposals[proposalId].ticketId = ticketId;
         proposals[proposalId].refundAddress = refundAddress;
@@ -34,16 +34,15 @@ contract Exchange {
     }
 
     function finalizeProposals() {
-        for (uint8 proposalId = 0; proposalId < proposals.length; proposalId++) {
-            require(proposals[proposalId].ticketRegistryContract != address(0));
-        }
+        // for (uint8 proposalId = 0; proposalId < proposals.length; proposalId++) {
+        //     // require(proposals[proposalId].ticketRegistryContract != address(0));
+        // }
         proposalsFinalized = true;
     }
 
     function refund() {
         for (uint8 proposalId = 0; proposalId < proposals.length; proposalId++) {
-            if (proposals[proposalId].ticketRegistryContract != address(0))
-            {
+            if (proposals[proposalId].ticketRegistryContract != address(0)) {            
                 TicketRegistry tr = TicketRegistry(proposals[proposalId].ticketRegistryContract);
                 //address tr = proposals[proposalId].ticketRegistryContract;
                 if (tr.ticketMap(proposals[proposalId].ticketId) == address(this)) {
@@ -54,11 +53,11 @@ contract Exchange {
 	    //selfdestruct(owner);
     }
 
-    function transfer() {
+    function doExhcange() {
         require(proposalsFinalized);
         for (uint8 proposalId = 0; proposalId < proposals.length; proposalId++) {
             //TicketRegistry tr = TicketRegistry(proposals[proposalId].ticketRegistryContract);
-            require(proposals[proposalId].ticketRegistryContract.ticketMap(proposals[proposalId].ticketId) == address(this));
+            // require(proposals[proposalId].ticketRegistryContract.ticketMap(proposals[proposalId].ticketId) == address(this));
             proposals[proposalId].ticketRegistryContract.transferTicket(proposals[proposalId].transferAddress, proposals[proposalId].ticketId);
 		}
 		//selfdestruct(owner);

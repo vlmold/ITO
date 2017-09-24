@@ -33,11 +33,11 @@ contract TicketRegistry is TicketRegistryInterface {
     }
 
     function transferTicket(address _to, uint _ticketId) public returns (bool) {
-        require(now < expDate);
-        require(_ticketId < maxCount);
+        // require(now < expDate);
+        // require(_ticketId < maxCount);
 
         if(msg.sender == owner && ticketMap[_ticketId] == 0) {
-            require(count < maxCount);
+            // require(count < maxCount);
             ticketMap[_ticketId] = _to;
             count++;
             return true;

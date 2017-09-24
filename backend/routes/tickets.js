@@ -41,7 +41,7 @@ router.post("/exchange", function (req, res) {
     let contractAddress2 = params.secondContractAddress;
     let ticketId2 = params.secondTicketId;
 
-    web3helper.exchangeTicket(contractAddress1, contractAddress2, ticketId1, ticketId2).then((result) => {
+    web3helper.exchangeTickets(contractAddress1, contractAddress2, ticketId1, ticketId2).then((result) => {
         if (result.transactionHash !== undefined) {
             return res.send(JSON.stringify({ hash: result.transactionHash }));
         } else {
