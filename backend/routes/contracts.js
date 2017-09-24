@@ -6,7 +6,7 @@ var logger = require('../helpers/logger');
 
 
 var fs = require("fs");
-var path = "./backend/storage/contracts.txt";
+var path = "./storage/contracts.txt";
 
 var web3helper = require('../helpers/web3helper');
 /**

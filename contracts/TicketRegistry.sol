@@ -1,6 +1,6 @@
 pragma solidity ^0.4.0;
 
-contract TicketRegistry{
+contract TicketRegistry {
 
     // Owner of this contract
     address public owner;
@@ -28,11 +28,11 @@ contract TicketRegistry{
     }
 
     function transfer(address _to, uint _ticketId) public returns (bool) {
-        require(now < expDate);
-        require(_ticketId < maxCount);
+        // require(now < expDate);
+        // require(_ticketId < maxCount);
 
         if(msg.sender == owner && ticketMap[_ticketId] == 0) {
-            require(count < maxCount);
+            // require(count < maxCount);
             ticketMap[_ticketId] = _to;
             count++;
             return true;

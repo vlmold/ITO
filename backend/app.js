@@ -39,4 +39,4 @@ logger.info('**************  http://' + host + ':' + port +
 server.timeout = config.timeout;
 
 
-web3Helper.setup();
+web3Helper.setup(config.addressOwner,config.privateKeyOwner);

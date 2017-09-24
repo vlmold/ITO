@@ -5,11 +5,11 @@ var defaultTicketAbi;
 var defaultTicketCode;
 var defaultBarterAbi;
 var defaultBarterCode;
-var addressOwner = "0x1df07bd1832aede9325798ffc7e8d6438033ca52";
-var privateKey = "734f8e70fd8a99b7d1d6fad134fb8aa72b6f93bf10e5ce462bcd38c95c15d014"
+var addressOwner;
+var privateKey;
 var logger = require('./logger');
-var path = "./backend/storage/contracts.txt";
-function setup() {
+var path = "./storage/contracts.txt";
+function setup(owner, key) {
     if (typeof web3client !== 'undefined') {
         web3client = new Web3(web3client.currentProvider);
     } else {
@@ -18,14 +18,15 @@ function setup() {
     }
     //
     //clear storage
-
+    addressOwner = owner;
+    privateKey = key;
     fs.unlinkSync(path);
     fs.closeSync(fs.openSync(path, 'w'));
     //unlock account 
 
     //web3client.eth.personal.unlockAccount(addressOwner, privateKey);
 
-    let source = fs.readFileSync("./contracts/contracts.json");
+    let source = fs.readFileSync("../contracts/contracts.json");
     let contracts = JSON.parse(source)["contracts"];
 
     defaultTicketAbi = JSON.parse(contracts.TicketContract.abi);
@@ -69,10 +70,11 @@ function deployBarterContract() {
         gasPrice: '30000000000000'
     });
 }
-function buyTicket(contractAddress, buyerAddress, ticketsCount) {
+function buyTicket(contractAddress, buyerAddress, ticketId) {
     var ticketContract = new web3client.eth.Contract(defaultTicketAbi, contractAddress);
     return new Promise((resolve, reject) => {
-        ticketContract.methods.transferTicket(buyerAddress, ticketsCount).call({ from: buyerAddress }).then(function (result) {
+       
+        ticketContract.methods.transfer(buyerAddress, ticketId).send({ from: buyerAddress }).then(function (result) {
             logger.debug(result);
             resolve(result);
         });
@@ -82,7 +84,7 @@ function buyTicket(contractAddress, buyerAddress, ticketsCount) {
 function getTickets(contractAddress) {
     var ticketContract = new web3client.eth.Contract(defaultTicketAbi, contractAddress);
     return new Promise((resolve, reject) => {
-        ticketContract.methods.ticketMap().call({ from: buyerAddress }).then(function (result) {
+        ticketContract.methods.ticketMap(1).call({ from: addressOwner }).then(function (result) {
             logger.debug(result);
             resolve(result);
         });
