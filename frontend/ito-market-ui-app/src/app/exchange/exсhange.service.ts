@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class ExсhangeService {
   private headers = new Headers({'Content-Type': 'application/json'});
-  private hostUrl = 'http://10.1.16.104:3000'; 
+  private hostUrl = 'http://localhost:3000'; 
 
   constructor(private http: Http) { }
 
@@ -17,7 +17,7 @@ export class ExсhangeService {
      user2Address: string,
      place1Number: number,
      place2Number: number): Observable<boolean> {
-      const url = `${this.hostUrl}/api/contracts`;
+      const url = `${this.hostUrl}/api/tickets/exchange`;
       return this.http
             .post(url, 
               JSON.stringify(

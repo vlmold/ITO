@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class TicketsOrgService {
   private headers = new Headers({'Content-Type': 'application/json'});
-  private hostUrl = 'http://10.1.16.104:3000'; 
+  private hostUrl = 'http://localhost:3000'; 
 
   constructor(private http: Http) { }
 
