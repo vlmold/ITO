@@ -14,10 +14,10 @@ export class BuyersService {
   constructor(private http: Http) { }
 
   checkUser(id:number, contractAddress:string): Promise<string>{
-    const url = `${this.hostUrl}/api/tickets?id=${id}&contractAddress=${contractAddress}/`;
+    const url = `${this.hostUrl}/api/tickets?id=${id}&contractAddress=${contractAddress}`;
     return this.http.get(url)
           .toPromise()
-          .then(response => response.json() as string);
+          .then(response =>  response.text() as string);
   }
 
   buyTicket(userAddress: string, contractAddress: string, placeNumber: number): Observable<boolean> {
