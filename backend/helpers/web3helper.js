@@ -81,16 +81,17 @@ function buyTicket(contractAddress, buyerAddress, ticketId) {
     })
 
 }
-function getTickets(contractAddress) {
+function getTickets(contractAddress,id) {
     var ticketContract = new web3client.eth.Contract(defaultTicketAbi, contractAddress);
     return new Promise((resolve, reject) => {
-        ticketContract.methods.ticketMap(1).call({ from: addressOwner }).then(function (result) {
+        ticketContract.methods.ticketMap(id).call({ from: addressOwner }).then(function (result) {
             logger.debug(result);
             resolve(result);
         });
     })
 
 }
+
 function exchangeTickets(contract1address, contract2address, firstTicketId1, secondTicketId2) {
     //get user1 address
 
@@ -108,7 +109,7 @@ function exchangeTickets(contract1address, contract2address, firstTicketId1, sec
 
                 deployBarterContract().then((barterContract) => {
                     console.log(barterContract.options.address) // instance with the new contract address
-                    barterContract.methods.setProposal(0, contract1address, firstTicketId1, address1, address2).send({ from: address1 }).then(function (result1) {
+                    barterContract.methods.setPropasal(0, contract1address, firstTicketId1, address1, address2).send({ from: address1 }).then(function (result1) {
                         logger.debug(result1);
                         barterContract.methods.setProposal(1, contract2address, secondTicketId2, address2, address1).send({ from: address2 }).then(function (result) {
                             logger.debug(result2);

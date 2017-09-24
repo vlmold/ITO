@@ -51,12 +51,12 @@ router.post("/exchange", function (req, res) {
 });
 router.get("/", function (req, res) {
 
-    let params = req.body;
+    let params = req.query;
 
     logger.debug("#get ticket");
     let contractAddress = params.contractAddress;
-    let address = params.address;
-    web3helper.getTickets(contractAddress).then((result) => {
+    let ticket = params.id;
+    web3helper.getTickets(contractAddress, ticket).then((result) => {
         res.send(result);
     });
 
