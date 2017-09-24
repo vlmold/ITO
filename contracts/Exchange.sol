@@ -54,7 +54,7 @@ contract Exchange {
     }
 
     function doExhcange() {
-        require(proposalsFinalized);
+        // require(proposalsFinalized);
         for (uint8 proposalId = 0; proposalId < proposals.length; proposalId++) {
             //TicketRegistry tr = TicketRegistry(proposals[proposalId].ticketRegistryContract);
             // require(proposals[proposalId].ticketRegistryContract.ticketMap(proposals[proposalId].ticketId) == address(this));
