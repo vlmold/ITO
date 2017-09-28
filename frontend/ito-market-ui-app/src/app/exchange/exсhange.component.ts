@@ -29,7 +29,8 @@ export class ExchangeComponent implements OnInit {
 
   placeNumber1: number;
   placeNumber2: number;
-
+  firstOwner: string;
+  secondOwner: string;
   constructor(
     private exService: ExсhangeService,
     public snackBar: MdSnackBar,
@@ -43,14 +44,23 @@ export class ExchangeComponent implements OnInit {
   switch(event: any): void {
     this.exService.changeTickets(this.userAddr1, this.userAddr2, this.placeNumber1, this.placeNumber2)
       .subscribe(result => {
-          this.snackBar.open("You've changed the tickets ", "Close", {
-            duration: 4000,
-          });        
+        this.snackBar.open("You've changed the tickets ", "Close", {
+          duration: 4000,
+        });
       })
   }
-
+  checkTicketFirst(event: any): void {
+    this.buyerService.checkUser(this.placeNumber1, this.userAddr1).then((res) => {
+      this.firstOwner = res["name"];
+    });
+  }
+  checkTicketSecond(event: any): void {
+    this.buyerService.checkUser(this.placeNumber2, this.userAddr2).then((res) => {
+      this.secondOwner = res["name"];
+    });
+  }
   getAddresses(): void {
-       this.offers = [
+    this.offers = [
       {
         name: "Kiev-NY",
         address: "asd123123123"
@@ -61,8 +71,8 @@ export class ExchangeComponent implements OnInit {
       }
     ];
     this.buyerService
-        .getOffers()
-        .then(offers => this.offers = offers);
+      .getOffers()
+      .then(offers => this.offers = offers);
   }
 
 }

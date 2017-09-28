@@ -1,11 +1,11 @@
 var config = {
     "host": process.env.KYC_HOST || "localhost",
     "port": process.env.KYC_PORT || 3000,
-    "addressOwner" : "0xcfa92430100547155f0a38cd3abcd0dd0bc64fd3",
-    "privateKeyOwner" : "691477dbdf4f88c89c593541e6dc36d151d763e4e2fe0b7a4076387f006d305d",
-    "user1address" : "0xf9096e4126ed17852601dd00a8a0c9e0455b851f",
-    "user1privateKey" : "9a21645934a3ce65d3d568bc512c5c6213f5e40f2fe834e43850e04204d14eef", 
-    "user2address" : "0xd74a1c63bf005953aba54300dda7c7aef9763ecd",
-    "user2privateKey" : "5a17788756391ce37e90f1a6ddd58376ef37f2e061c6ee965c9d08348e74e574"
+    "addressOwner" : "0x6a46ec4f59bc0825efd8369ba52ee448ffb8817d",
+    "privateKeyOwner" : "09ebd8e9e6028f0e876798f19ab172985cb0d85d8b660312017abd73c614217c",
+    "user1address" : "0x34795f52bc9774d2a506afb70a77a15061162673",
+    "user1privateKey" : "042434284566c4f1a9f3a7c84af6120160fd071260e23f946ce52693a76d09dd", 
+    "user2address" : "0xd3a797011ea10db8a8c0d0727805d1d465639776",
+    "user2privateKey" : "2d8d0780cac35bd79bffed9d9ab0c66b527b20c4849c20a08f2b68f690a867a7"
 }
 module.exports = config;

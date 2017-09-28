@@ -11,6 +11,12 @@
         <input type="number" mdInput placeholder="Place number" [(ngModel)]="placeNumber1">
         <md-icon mdSuffix>mode_edit</md-icon>
     </md-form-field>
+    <button class="buyBtn" style="margin-left:15px;margin-right:15px;" md-line md-raised-button (click)="checkTicketFirst($event)">Owner</button>
+    
+        <md-form-field *ngIf="firstOwner">
+            <input mdInput [(ngModel)]="firstOwner" required>
+        </md-form-field>
+    
 </div>
 
 <div>
@@ -23,6 +29,15 @@
         <input type="number" mdInput placeholder="Place number" [(ngModel)]="placeNumber2">
         <md-icon mdSuffix>mode_edit</md-icon>
     </md-form-field>
+
+    <button class="buyBtn" style="margin-left:15px;margin-right:15px;" md-line md-raised-button (click)="checkTicketSecond($event)">Owner</button>
+
+    <md-form-field *ngIf="secondOwner">
+        <input mdInput [(ngModel)]="secondOwner" required>
+    </md-form-field>
+
+
+
 </div>
 <div>
     <button class="buyBtn" md-line md-raised-button (click)="switch($event)">Exchange</button>

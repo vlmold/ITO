@@ -6,7 +6,7 @@ var logger = require('../helpers/logger');
 
 
 var fs = require("fs");
-var path = "./backend/storage/tickets.txt";
+var path = "./storage/users.txt";
 
 var web3helper = require('../helpers/web3helper');
 
@@ -56,8 +56,22 @@ router.get("/", function (req, res) {
     logger.debug("#get ticket");
     let contractAddress = params.contractAddress;
     let ticket = params.id;
-    web3helper.getTickets(contractAddress, ticket).then((result) => {
-        res.send(result);
+    web3helper.getTickets(contractAddress, ticket).then((address) => {
+        //get name by address
+        var result = fs.readFileSync(path, "utf8");
+        var arrayOfLines = result.match(/[^\r\n]+/g);
+
+        var user = {}
+        if (arrayOfLines) {
+            arrayOfLines.forEach(function (line) {
+                let addr = line.split('_')[0];
+                if (addr.toLowerCase() === address.toLowerCase()) {
+                    user = { address: line.split('_')[0], name: line.split('_')[1] };
+                }
+
+            }, this);
+        }
+        res.send(user);
     });
 
 });

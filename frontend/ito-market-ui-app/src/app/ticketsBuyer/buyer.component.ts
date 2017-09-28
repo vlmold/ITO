@@ -8,6 +8,7 @@ import 'rxjs/add/observable/of';
 import { MdIconRegistry } from '@angular/material';
 import { MdSnackBar } from '@angular/material';
 import { MdListModule } from '@angular/material';
+import { User } from './User';
 
 
 @Component({
@@ -23,7 +24,8 @@ export class BuyerComponent implements OnInit {
 
   contractCheckAddr: string;
   contractCheckNum: number;
-
+  users: User[];
+  user:User;
   constructor(
     private buyerService: BuyersService,
     public snackBar: MdSnackBar
@@ -31,40 +33,38 @@ export class BuyerComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getOffers();
+    this.getUsers();
   }
 
   checkTicket(): void {
-    this.buyerService.checkUser(this.contractCheckNum,this.contractCheckAddr)
+    this.buyerService.checkUser(this.contractCheckNum, this.contractCheckAddr)
       .then(result => {
-          this.snackBar.open("Ticket owner - " + result, "Close", {
-            duration: 4000,
-          });        
+        this.snackBar.open("Ticket owner - " + result["name"], "Close", {
+          duration: 4000,
+        });
       })
   }
 
   buyTicket(event: any, offer: TicketOffer): void {
-    this.buyerService.buyTicket(this.buyerAddress, offer.address, this.ticketNumber)
+    this.buyerService.buyTicket(this.user.address, offer.address, this.ticketNumber)
       .subscribe(result => {
-          this.snackBar.open("You've bought a ticket - ", "Close", {
-            duration: 4000,
-          });        
+        this.snackBar.open("You've bought a ticket  ", "Close", {
+          duration: 4000,
+        });
       })
   }
 
   getOffers(): void {
-    // this.offers = [
-    //   {
-    //     name: "Kiev-NY",
-    //     address: "asd123123123"
-    //   },
-    //   {
-    //     name: "Ledy-Gaga",
-    //     address: "asd123123123"
-    //   }
-    // ];
+
     this.buyerService
-        .getOffers()
-        .then(offers => this.offers = offers);
+      .getOffers()
+      .then(offers => this.offers = offers);
+  }
+  getUsers(): void {
+
+    this.buyerService
+      .getUsers()
+      .then(users => this.users = users);
   }
 
 }

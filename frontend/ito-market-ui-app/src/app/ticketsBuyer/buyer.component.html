@@ -1,10 +1,15 @@
-<h1> Insert your ethereum address </h1>
+<h1> Insert your ethereum address or name</h1>
 
 <div>
-    <md-form-field>
+    <!-- <md-form-field>
         <input mdInput placeholder="address" [(ngModel)]="buyerAddress">
         <md-icon mdSuffix>mode_edit</md-icon>
-    </md-form-field>
+    </md-form-field> -->
+    <md-select [(ngModel)]="user" placeholder="User">
+        <md-option *ngFor="let user of users" [value]="user">
+            {{user.name}}
+        </md-option>
+    </md-select>
 </div>
 
 <md-list>
@@ -24,13 +29,13 @@
 <h1> Check ticket owner </h1>
 <div>
     <md-form-field>
-        <input mdInput placeholder="Check address" [(ngModel)]="contractCheckAddr">
+        <input mdInput placeholder="Contract address" [(ngModel)]="contractCheckAddr">
         <md-icon mdSuffix>mode_edit</md-icon>
     </md-form-field>
 </div>
 <div>
     <md-form-field>
-        <input mdInput type="number" placeholder="Check id" [(ngModel)]="contractCheckNum">
+        <input mdInput type="number" placeholder="Ticket id" [(ngModel)]="contractCheckNum">
         <md-icon mdSuffix>mode_edit</md-icon>
     </md-form-field>
 </div>
